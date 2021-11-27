@@ -71,8 +71,8 @@ public class ReviewController {
                                  @RequestBody Review newReview) {
         if(!books.existsById(bookId)) {
             throw new BookNotFoundException(bookId);
-        }
-        return reviews.findById(reviewId).map(review -> {
+        } // reviews.findByIdAndBookId() instead of review.findById()
+        return reviews.findByIdAndBookId(reviewId,bookId).map(review -> {
             review.setReview(newReview.getReview());
             return reviews.save(review);
         }).orElseThrow(() -> new ReviewNotFoundException(reviewId));
