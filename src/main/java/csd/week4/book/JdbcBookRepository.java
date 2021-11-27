@@ -23,7 +23,6 @@ public class JdbcBookRepository implements BookRepository {
         this.jdbcTemplate = template;
     }
 
-    
     /**
      * We need to return the auto-generated id of the insert operation
      * 
@@ -51,9 +50,9 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     public int update(Book book) {
         // your code here
-        
         // you should change the return value also
-        return 0;
+        return jdbcTemplate.update("update books set title = ? where id = ?", book.getTitle(), book.getId());
+
     }
 
     /**
@@ -74,9 +73,9 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     public List<Book> findAll() {
         // your code here
-        
         // return value should be changed
-        return null;
+        return jdbcTemplate.query("select * from books", 
+        (rs, rowNum) -> new Book(rs.getLong("id"), rs.getString("title")));
     }
     
     /**

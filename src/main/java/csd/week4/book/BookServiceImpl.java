@@ -53,7 +53,10 @@ public class BookServiceImpl implements BookService {
     public Book updateBook(Long id, Book newBookInfo){
         // your code here
         // you should also return an instance of Book, or null
-        
+        newBookInfo.setId(id);
+        if (books.update(newBookInfo) > 0) {
+            return newBookInfo;
+        }
         return null;
     }
 
