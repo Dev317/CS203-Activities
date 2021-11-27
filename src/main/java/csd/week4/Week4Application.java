@@ -24,9 +24,9 @@ public class Week4Application {
         
         // initialize the H2 database
         // comment or remove this code if you want the DB to persist data
-        template.execute("DROP TABLE books IF EXISTS");
-        template.execute("CREATE TABLE books(" +
-                "id SERIAL PRIMARY KEY, title VARCHAR(255))");
+        // template.execute("DROP TABLE books IF EXISTS");
+        // template.execute("CREATE TABLE books(" +
+        //         "id SERIAL PRIMARY KEY, title VARCHAR(255))");
 
         List<Book> listBooks = Arrays.asList(
             new Book("The Big Short"),
