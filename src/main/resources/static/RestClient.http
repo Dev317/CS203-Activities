@@ -28,7 +28,7 @@ Content-Type: application/json
 GET http://localhost:8080/books/2/reviews
 
 ###
-POST http://localhost:8080/books/1/reviews
+POST http://localhost:8080/books/2/reviews
 Content-Type: application/json
 
 {

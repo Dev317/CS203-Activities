@@ -39,7 +39,19 @@ public class ReviewController {
         // Hint: using "map" to handle the returned Optional object from "findById(bookId)"
         // your code here
         // need to change the "return null"
-        return null;
+        // return books.findById(bookId).map(
+        //     book -> {
+        //         review.setBook(book);
+        //         return reviews.save(review);
+        //     }
+        // ).orElseThrow(() -> new BookNotFoundException(bookId));
+        Book book = books.findByBookId(bookId);
+        if (book != null) {
+            review.setBook(book);
+            reviews.save(review);
+        } else {
+            throw new BookNotFoundException(bookId);
+        }
     }
 
     /**
