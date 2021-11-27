@@ -36,13 +36,13 @@ public class Week5Application {
          * Here we use our own Rest client to test the service
          * Authentication info has been added int the RestTemplateClient.java
          */
-        /*
+        
         RestTemplateClient client = ctx.getBean(RestTemplateClient.class);
         System.out.println("[Add book]: " + client.addBook("http://localhost:8080/books", new Book("Spring in Actions")).getTitle());
 
         // Get the 1st book, obtain a HTTP response and print out the title of the book
         System.out.println("[Get book]: " + client.getBookEntity("http://localhost:8080/books", 1L).getBody().getTitle());
-        */
+        
     }
     
 }

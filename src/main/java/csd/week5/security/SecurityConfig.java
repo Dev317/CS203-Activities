@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalMethodSecurity(
+  prePostEnabled = true,
+  securedEnabled = true,
+  jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     private UserDetailsService userDetailsService;
@@ -59,8 +64,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PUT, "/books/*").authenticated()
             .antMatchers(HttpMethod.DELETE, "/books/*").authenticated()
             
-            // your code here
             
+            // .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.PUT, "/books/*").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.DELETE, "/books/*").hasRole("ADMIN")
+            
+            // your code here
+            .antMatchers(HttpMethod.POST, "/books/**/reviews").authenticated()
+            .antMatchers(HttpMethod.PUT, "/books/**/reviews/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/books/**/reviews/**").authenticated()
+
+            
+            // .antMatchers(HttpMethod.POST, "/books/**/reviews").hasAnyRole("ADMIN", "USER")
+            // .antMatchers(HttpMethod.PUT, "/books/**/reviews/**").hasRole("ADMIN")
+            // .antMatchers(HttpMethod.DELETE, "/books/**/reviews/**").hasRole("ADMIN")
+            
+            .antMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+
             .and()
         .csrf().disable() // CSRF protection is needed only for browser based attacks
         .formLogin().disable()

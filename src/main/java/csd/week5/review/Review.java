@@ -21,6 +21,8 @@ public class Review {
      * and should be at least 10 characters long. 
      */
     // your code here
+    @NotNull
+    @Size(min = 10, message = "Review must be at least 10 characters long!")
     private String review;
 
     @ManyToOne

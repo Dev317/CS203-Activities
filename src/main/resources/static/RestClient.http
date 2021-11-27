@@ -42,10 +42,10 @@ GET http://localhost:8080/books/1/reviews
 POST http://localhost:8080/books/2/reviews
 Content-Type: application/json
 # User role
-Authorization: Basic gooduser:goodpassword
+Authorization: Basic gooduser goodpassword
 
 {
-    "review": "Terrible book :)"
+    "review": "Bad book :)"
 }
 
 ###

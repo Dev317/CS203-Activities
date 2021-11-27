@@ -43,6 +43,7 @@ public class ReviewController {
         if(!books.existsById(bookId)) {
             throw new BookNotFoundException(bookId);
         }
+        
         return reviews.findByIdAndBookId(reviewId, bookId).map(review -> {
             review.setReview(newReview.getReview());
             return reviews.save(review);
