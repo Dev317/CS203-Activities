@@ -113,5 +113,59 @@ class BookIntegrationTest {
 										.exchange(uri, HttpMethod.DELETE, null, Void.class);
 	 */
 	// your code here
-	
+	@Test
+	public void deleteBook_ValidBookId_Success() throws Exception {
+		Book book = books.save(new Book("Test Title"));
+
+		URI uri = new URI(baseUrl + port + "/books/" + book.getId().longValue());
+
+		users.save(new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN"));
+
+		ResponseEntity<Void> response = restTemplate.withBasicAuth("admin", "goodpassword").exchange(uri, HttpMethod.DELETE, null,Void.class);
+		
+		assertEquals(200, response.getStatusCode().value());
+
+		Optional<Book> empty = Optional.empty();
+		assertEquals(empty, books.findById(book.getId()));
+	}
+
+	@Test
+	public void deleteBook_InvalidBookId_Success() throws Exception {
+		URI uri = new URI(baseUrl + port + "/books/1");
+
+		users.save(new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN"));
+
+		ResponseEntity<Void> response = restTemplate.withBasicAuth("admin", "goodpassword").exchange(uri, HttpMethod.DELETE, null,Void.class);
+		
+		assertEquals(404, response.getStatusCode().value());
+	}
+
+	@Test
+	public void updateBook_ValidBookId_Success() throws Exception {
+		Book book = books.save(new Book("Test Title"));
+
+		URI uri = new URI(baseUrl + port + "/books/" + book.getId().longValue());
+
+		users.save(new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN"));
+
+		Book newBook = new Book("Test Title 1");
+		ResponseEntity<Book> response = restTemplate.withBasicAuth("admin", "goodpassword").exchange(uri, HttpMethod.PUT, new HttpEntity<>(newBook) ,Book.class);
+		
+		assertEquals(200, response.getStatusCode().value());
+		assertEquals(newBook.getTitle(), response.getBody().getTitle());
+	}
+
+	@Test
+	public void updateBook_InvalidBookId_Success() throws Exception {
+
+		URI uri = new URI(baseUrl + port + "/books/1");
+
+		users.save(new User("admin", encoder.encode("goodpassword"), "ROLE_ADMIN"));
+
+		Book newBook = new Book("Test Title 1");
+		ResponseEntity<Book> response = restTemplate.withBasicAuth("admin", "goodpassword").exchange(uri, HttpMethod.PUT, new HttpEntity<>(newBook), Book.class);
+		
+		assertEquals(404, response.getStatusCode().value());
+	}
+
 }

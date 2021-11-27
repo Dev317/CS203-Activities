@@ -26,7 +26,6 @@ public class BookServiceTest {
     @InjectMocks
     private BookServiceImpl bookService;
     
-    
     @Test
     void addBook_NewTitle_ReturnSavedBook(){
         // arrange ***
@@ -55,6 +54,17 @@ public class BookServiceTest {
     @Test
     void addBook_SameTitle_ReturnNull(){
         // your code here
+        Book book = new Book("Testing title");
+
+        List<Book> bookList = new ArrayList<>();
+        bookList.add(new Book("Testing title"));
+
+        when(books.findByTitle(any(String.class))).thenReturn(bookList);
+
+        Book savedBook = bookService.addBook(book);
+
+        assertNull(savedBook);
+        verify(books).findByTitle(book.getTitle());
                 
     }
 
