@@ -2,6 +2,7 @@ package csd.week3.book;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,12 @@ public class BookController {
      * 
     */
     // your code here - you should add a constructor or a setter injection
-    
-    
+    @Autowired
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
     /////////
+    
     /**
      * List all books in the system
      * @return list of all books
