@@ -25,7 +25,7 @@ public class Week3Application {
 
         // TODO: Activity 3 - understand how to use RestTemplate
         // Uncomment the following code to observe and experiment with
-        /*
+        
         // Use BookClient which makes use of Spring's RestTemplate to consume the web service
         BookClient client = ctx.getBean(BookClient.class);
 
@@ -41,7 +41,7 @@ public class Week3Application {
         newBook.setTitle("Gone With The Wind");
         Book returned = client.addBook(URI, newBook);
         System.out.println("[RestTemplate] POST book: " + returned.getTitle());
-        */
+        
     }
     
 }
