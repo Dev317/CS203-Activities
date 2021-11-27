@@ -79,8 +79,9 @@ public class BookController {
     @PutMapping("/books/{id}")
     public Book updateBook(@PathVariable Long id, @RequestBody Book newBookInfo){
         // your code here, pls also change the "return null" statement accordingly
-        
-        return null;
+        Book updatedBook = bookService.updateBook(id, newBookInfo);
+        if (updatedBook == null) throw new BookNotFoundException(id);
+        return updatedBook;
     }
 
     /**
@@ -92,5 +93,7 @@ public class BookController {
     @DeleteMapping("/books/{id}")
     public void deleteBook(@PathVariable Long id){
         // your code here
+        Book deleteBook = bookService.deleteBook(id);
+        if (deleteBook == null) throw new BookNotFoundException(id);
     }
 }

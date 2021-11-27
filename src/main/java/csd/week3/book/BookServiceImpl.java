@@ -60,6 +60,17 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book deleteBook(Long id){
         // your code here
-        return null;
+        Iterator<Book> iter = books.iterator();
+        Book removedBook = null;
+
+        while (iter.hasNext()) {
+            Book book = iter.next();
+            if (book.getId().equals(id)) {
+                removedBook = new Book(book.getTitle());
+                iter.remove();
+            }
+        }
+
+        return removedBook;
     }
 }
