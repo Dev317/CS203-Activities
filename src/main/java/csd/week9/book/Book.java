@@ -45,7 +45,7 @@ public class Book {
     /**
      * Count the number of words in the book title
      * 
-     * @return
+     * @return number of words
      */
     public int countWordsInTitle() { 
         StringTokenizer tokens = new StringTokenizer(title); 
