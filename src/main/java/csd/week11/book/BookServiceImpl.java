@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
@@ -83,9 +84,71 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Map<String, Integer> getMostCommonWordsInTitles(int topK){
-        Map<String, Integer> returnedMap = new LinkedHashMap<String, Integer>();
         // your code here
-        
+        List<Book> bookList = books.findAll();
+        Map<String, Integer> wordCountMap = getWordCountMap(bookList);
+        Map<String, Integer> returnedMap = getTopKWords(topK, wordCountMap);
         return returnedMap;
+    }
+
+    private Map<String, Integer> getWordCountMap(List<Book> bookList) {
+        Map<String, Integer> wordCountMap = new TreeMap<>();
+
+        for (Book book : bookList) {
+            String title = book.getTitle();
+            String[] wordArr = title.split(" ");
+
+            for (String word : wordArr) {
+                word = word.toLowerCase();
+                if (!wordCountMap.containsKey(word)) {
+                    wordCountMap.put(word, 1);
+                } else {
+                    int newCount = wordCountMap.get(word) + 1;
+                    wordCountMap.put(word, newCount);
+                }
+            }
+        }
+
+        return wordCountMap;
+    }
+
+    public Map<String, Integer> getTopKWords(int topK, Map<String, Integer> wordCountMap) {
+        Map<String, Integer> returnedMap = new TreeMap<>();
+
+        Map<String, Integer> sortedMap = sortWordCountMapDesc(wordCountMap);
+
+        int counter = 0;
+        for (Map.Entry<String, Integer> entry : sortedMap.entrySet()) {
+            if (counter == topK) {
+                break;
+            }
+
+            returnedMap.put(entry.getKey(), entry.getValue());
+            counter++;
+        }
+
+        return returnedMap;
+    }
+
+    public Map<String, Integer> sortWordCountMapDesc(Map<String, Integer> wordCountMap) {
+        List<Entry<String, Integer>> list = new LinkedList<>(wordCountMap.entrySet());
+
+        Collections.sort(list, new Comparator<Entry<String, Integer>>() {
+            public int compare(Entry<String, Integer> e1, Entry<String, Integer> e2) {
+                if (e1.getValue() == e2.getValue()) {
+                    return e1.getKey().compareTo(e2.getKey());
+                }
+
+                return e2.getValue() - e1.getValue();
+            }
+        });
+
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+
+        for (Entry<String, Integer> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
     }
 }
